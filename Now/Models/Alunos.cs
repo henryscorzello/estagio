@@ -8,20 +8,16 @@ namespace Now
 
     public partial class Alunos
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Alunos()
-        {
-            Notas = new HashSet<Notas>();
-        }
-
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id_Aluno { get; set; }
+
+        public int Turma { get; set; }
 
         [Required]
         [StringLength(50)]
         public string Nome { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notas> Notas { get; set; }
+        public virtual Turmas Turmas { get; set; }
     }
 }

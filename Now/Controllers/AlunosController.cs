@@ -12,12 +12,13 @@ namespace Now.Controllers
 {
     public class AlunosController : Controller
     {
-        private sdfsdfsdfsdfsdfsdf db = new sdfsdfsdfsdfsdfsdf();
+        private Model2 db = new Model2();
 
         // GET: Alunos
         public ActionResult Index()
         {
-            return View(db.Alunos.ToList());
+            var alunos = db.Alunos.Include(a => a.Turmas);
+            return View(alunos.ToList());
         }
 
         // GET: Alunos/Details/5
@@ -38,6 +39,7 @@ namespace Now.Controllers
         // GET: Alunos/Create
         public ActionResult Create()
         {
+            ViewBag.Turma = new SelectList(db.Turmas, "Id_Turmas", "Turmas1");
             return View();
         }
 
@@ -46,7 +48,7 @@ namespace Now.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_Aluno,Nome")] Alunos alunos)
+        public ActionResult Create([Bind(Include = "Id_Aluno,Turma,Nome")] Alunos alunos)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +57,7 @@ namespace Now.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Turma = new SelectList(db.Turmas, "Id_Turmas", "Turmas1", alunos.Turma);
             return View(alunos);
         }
 
@@ -70,6 +73,7 @@ namespace Now.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Turma = new SelectList(db.Turmas, "Id_Turmas", "Turmas1", alunos.Turma);
             return View(alunos);
         }
 
@@ -78,7 +82,7 @@ namespace Now.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_Aluno,Nome")] Alunos alunos)
+        public ActionResult Edit([Bind(Include = "Id_Aluno,Turma,Nome")] Alunos alunos)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +90,7 @@ namespace Now.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Turma = new SelectList(db.Turmas, "Id_Turmas", "Turmas1", alunos.Turma);
             return View(alunos);
         }
 
